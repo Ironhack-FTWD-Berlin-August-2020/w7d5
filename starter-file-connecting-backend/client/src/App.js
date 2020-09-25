@@ -10,11 +10,18 @@ import axios from 'axios';
 class App extends React.Component {
 
   state = {
-    countries: countries
+    countries: []
   }
 
   componentDidMount() {
-    console.log(countries);
+    // get the countries data from the server
+    // update the state
+    axios.get('/api/countries')
+      .then(response => {
+        this.setState({
+          countries: response.data
+        })
+      })
   }
 
   render() {
@@ -23,7 +30,7 @@ class App extends React.Component {
         <Navbar />
         <div className='container'>
           <div className='row'>
-            <CountryList />
+            <CountryList countries={this.state.countries} />
             <Route exact path='/:id' component={CountryDetail} />
           </div>
         </div>
